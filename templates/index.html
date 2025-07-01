@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrainPalette - AI-Powered Rice Classification</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i data-feather="cpu" class="me-2"></i>
+                <span class="gradient-text">GrainPalette</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('index') }}">
+                            <i data-feather="home" class="me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('about') }}">
+                            <i data-feather="info" class="me-1"></i>
+                            About
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <div class="hero-section text-center mb-5">
+            <div class="hero-content">
+                <div class="hero-icon mb-4">
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <div class="pulse-ring"></div>
+                    <i data-feather="cpu" class="hero-main-icon"></i>
+                </div>
+                <h1 class="hero-title mb-4">
+                    <span class="gradient-text">GrainPalette</span>
+                </h1>
+                <p class="hero-subtitle mb-3">
+                    AI-Powered Rice Classification Through Deep Learning
+                </p>
+                <p class="hero-description">
+                    Upload rice grain images for instant variety identification and agricultural insights
+                </p>
+                <div class="hero-stats mt-4">
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Rice Varieties</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">95%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3s</div>
+                        <div class="stat-label">Analysis Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ 'danger' if category == 'error' else 'info' }} alert-dismissible fade show" role="alert">
+                        <i data-feather="{{ 'alert-circle' if category == 'error' else 'info' }}" class="me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Main Content -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <!-- Upload Card -->
+                <div class="upload-card mb-5">
+                    <div class="card-glow"></div>
+                    <div class="card-header border-0">
+                        <h5 class="card-title mb-0">
+                            <i data-feather="upload" class="me-2 text-primary"></i>
+                            Upload Rice Grain Image
+                        </h5>
+                        <p class="text-muted small mb-0 mt-2">Drag and drop or click to select your rice grain image</p>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ url_for('upload_file') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                            <div class="upload-zone mb-4" id="uploadZone">
+                                <div class="upload-zone-content">
+                                    <i data-feather="image" class="upload-icon mb-3"></i>
+                                    <h6 class="upload-title">Choose Image File</h6>
+                                    <p class="upload-subtitle">or drag and drop here</p>
+                                    <input type="file" class="form-control d-none" id="file" name="file" 
+                                           accept="image/*" required>
+                                    <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('file').click()">
+                                        <i data-feather="folder" class="me-2"></i>
+                                        Browse Files
+                                    </button>
+                                </div>
+                                <div class="upload-formats">
+                                    <small class="text-muted">
+                                        Supported: PNG, JPG, JPEG, GIF, BMP, WEBP (Max 16MB)
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <!-- Image Preview -->
+                            <div id="imagePreview" class="image-preview-container mb-4" style="display: none;">
+                                <div class="preview-header">
+                                    <label class="form-label fw-bold">Image Preview</label>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onclick="removeImage()">
+                                        <i data-feather="x" class="me-1"></i>
+                                        Remove
+                                    </button>
+                                </div>
+                                <div class="preview-image-wrapper">
+                                    <img id="previewImg" src="" alt="Preview" class="preview-image">
+                                    <div class="image-overlay">
+                                        <div class="image-info">
+                                            <span id="imageSize"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg submit-btn" id="submitBtn">
+                                    <span class="btn-content">
+                                        <i data-feather="zap" class="me-2"></i>
+                                        Analyze Rice Grains
+                                    </span>
+                                    <div class="btn-loading">
+                                        <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                                        Analyzing...
+                                    </div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Rice Types Info -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i data-feather="info" class="me-2"></i>
+                            Supported Rice Varieties
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-primary rounded-circle p-2 me-3">
+                                        <i data-feather="circle" class="text-white"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Arborio</strong>
+                                        <small class="d-block text-muted">Short-grain Italian rice</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-success rounded-circle p-2 me-3">
+                                        <i data-feather="circle" class="text-white"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Basmati</strong>
+                                        <small class="d-block text-muted">Aromatic long-grain rice</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-info rounded-circle p-2 me-3">
+                                        <i data-feather="circle" class="text-white"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Ipsala</strong>
+                                        <small class="d-block text-muted">Turkish rice variety</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-warning rounded-circle p-2 me-3">
+                                        <i data-feather="circle" class="text-white"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Jasmine</strong>
+                                        <small class="d-block text-muted">Fragrant Asian rice</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-danger rounded-circle p-2 me-3">
+                                        <i data-feather="circle" class="text-white"></i>
+                                    </div>
+                                    <div>
+                                        <strong>Karacadag</strong>
+                                        <small class="d-block text-muted">Traditional Turkish rice</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Modal -->
+        <div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center py-4">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h5>Analyzing Your Rice Sample...</h5>
+                        <p class="text-muted mb-0">Please wait while our AI model processes your image</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+    </script>
+</body>
+</html>

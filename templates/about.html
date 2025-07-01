@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - GrainPalette AI Rice Classification</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i data-feather="cpu" class="me-2"></i>
+                <span class="gradient-text">GrainPalette</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('index') }}">
+                            <i data-feather="home" class="me-1"></i>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('about') }}">
+                            <i data-feather="info" class="me-1"></i>
+                            About
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <div class="about-hero text-center mb-5">
+            <div class="hero-icon mb-4">
+                <i data-feather="book-open" class="about-main-icon"></i>
+            </div>
+            <h1 class="hero-title mb-3">
+                About <span class="gradient-text">GrainPalette</span>
+            </h1>
+            <p class="hero-subtitle">
+                Advanced AI-Powered Rice Classification System
+            </p>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="row mb-5">
+            <div class="col-lg-8 mx-auto">
+                <div class="about-card">
+                    <div class="card-glow"></div>
+                    <div class="card-body">
+                        <h2 class="section-title mb-4">
+                            <i data-feather="target" class="me-2"></i>
+                            Project Overview
+                        </h2>
+                        <p class="lead">
+                            GrainPalette is a cutting-edge deep learning solution that revolutionizes rice grain classification 
+                            through the power of artificial intelligence and computer vision.
+                        </p>
+                        <p class="mb-4">
+                            Built using state-of-the-art transfer learning techniques with MobileNetV2, our system provides 
+                            farmers, researchers, and agricultural enthusiasts with instant, accurate rice variety identification 
+                            and tailored cultivation recommendations.
+                        </p>
+                        <div class="feature-grid">
+                            <div class="feature-item">
+                                <i data-feather="eye" class="feature-icon"></i>
+                                <h6>Computer Vision</h6>
+                                <p>Advanced image recognition for grain analysis</p>
+                            </div>
+                            <div class="feature-item">
+                                <i data-feather="brain" class="feature-icon"></i>
+                                <h6>Deep Learning</h6>
+                                <p>Neural networks trained on thousands of images</p>
+                            </div>
+                            <div class="feature-item">
+                                <i data-feather="zap" class="feature-icon"></i>
+                                <h6>Fast Analysis</h6>
+                                <p>Results in seconds with high accuracy</p>
+                            </div>
+                            <div class="feature-item">
+                                <i data-feather="globe" class="feature-icon"></i>
+                                <h6>Global Varieties</h6>
+                                <p>Supports international rice classifications</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <div class="tech-card">
+                    <div class="card-header">
+                        <h3 class="section-title mb-0">
+                            <i data-feather="code" class="me-2"></i>
+                            Technology Stack
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="tech-stack">
+                            <div class="tech-item">
+                                <div class="tech-icon tensorflow"></div>
+                                <div class="tech-info">
+                                    <h6>TensorFlow</h6>
+                                    <p>Deep learning framework</p>
+                                </div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-icon mobilenet"></div>
+                                <div class="tech-info">
+                                    <h6>MobileNetV2</h6>
+                                    <p>Pre-trained CNN model</p>
+                                </div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-icon flask"></div>
+                                <div class="tech-info">
+                                    <h6>Flask</h6>
+                                    <p>Web application framework</p>
+                                </div>
+                            </div>
+                            <div class="tech-item">
+                                <div class="tech-icon opencv"></div>
+                                <div class="tech-info">
+                                    <h6>OpenCV</h6>
+                                    <p>Computer vision library</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="stats-card">
+                    <div class="card-header">
+                        <h3 class="section-title mb-0">
+                            <i data-feather="bar-chart" class="me-2"></i>
+                            Model Performance
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="performance-stats">
+                            <div class="stat-circle">
+                                <div class="circle-progress" data-percentage="95">
+                                    <div class="circle-text">
+                                        <span class="percentage">95%</span>
+                                        <span class="label">Accuracy</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stats-list">
+                                <div class="stat-row">
+                                    <span class="stat-label">Training Images</span>
+                                    <span class="stat-value">3,000+</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Rice Varieties</span>
+                                    <span class="stat-value">5</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Analysis Time</span>
+                                    <span class="stat-value">< 3s</span>
+                                </div>
+                                <div class="stat-row">
+                                    <span class="stat-label">Model Size</span>
+                                    <span class="stat-value">2.3MB</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rice Varieties -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="varieties-card">
+                    <div class="card-header text-center">
+                        <h3 class="section-title mb-2">
+                            <i data-feather="grid" class="me-2"></i>
+                            Supported Rice Varieties
+                        </h3>
+                        <p class="text-muted">Our AI can identify and provide recommendations for these rice types</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="varieties-grid">
+                            <div class="variety-card arborio">
+                                <div class="variety-icon">
+                                    <i data-feather="circle"></i>
+                                </div>
+                                <h5>Arborio</h5>
+                                <p>Italian short-grain rice perfect for risotto. Known for its creamy texture and high starch content.</p>
+                                <div class="variety-tags">
+                                    <span class="tag">Short-grain</span>
+                                    <span class="tag">High-starch</span>
+                                </div>
+                            </div>
+                            <div class="variety-card basmati">
+                                <div class="variety-icon">
+                                    <i data-feather="circle"></i>
+                                </div>
+                                <h5>Basmati</h5>
+                                <p>Aromatic long-grain rice from India and Pakistan. Prized for its distinctive fragrance and fluffy texture.</p>
+                                <div class="variety-tags">
+                                    <span class="tag">Long-grain</span>
+                                    <span class="tag">Aromatic</span>
+                                </div>
+                            </div>
+                            <div class="variety-card ipsala">
+                                <div class="variety-icon">
+                                    <i data-feather="circle"></i>
+                                </div>
+                                <h5>Ipsala</h5>
+                                <p>Turkish rice variety known for excellent cooking qualities and grain structure. Popular in Mediterranean cuisine.</p>
+                                <div class="variety-tags">
+                                    <span class="tag">Medium-grain</span>
+                                    <span class="tag">Versatile</span>
+                                </div>
+                            </div>
+                            <div class="variety-card jasmine">
+                                <div class="variety-icon">
+                                    <i data-feather="circle"></i>
+                                </div>
+                                <h5>Jasmine</h5>
+                                <p>Fragrant long-grain rice from Thailand. Popular in Asian cuisine for its subtle floral aroma and soft texture.</p>
+                                <div class="variety-tags">
+                                    <span class="tag">Long-grain</span>
+                                    <span class="tag">Fragrant</span>
+                                </div>
+                            </div>
+                            <div class="variety-card karacadag">
+                                <div class="variety-icon">
+                                    <i data-feather="circle"></i>
+                                </div>
+                                <h5>Karacadag</h5>
+                                <p>Traditional Turkish rice variety with excellent cooking properties. Hardy and adaptable to various conditions.</p>
+                                <div class="variety-tags">
+                                    <span class="tag">Traditional</span>
+                                    <span class="tag">Hardy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="use-cases-card">
+                    <div class="card-header text-center">
+                        <h3 class="section-title mb-2">
+                            <i data-feather="users" class="me-2"></i>
+                            Who Can Benefit?
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="use-case-item">
+                                    <div class="use-case-icon farmer">
+                                        <i data-feather="sun"></i>
+                                    </div>
+                                    <h5>Farmers</h5>
+                                    <p>Plan cultivation strategies, optimize irrigation and fertilization based on rice variety characteristics.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="use-case-item">
+                                    <div class="use-case-icon researcher">
+                                        <i data-feather="microscope"></i>
+                                    </div>
+                                    <h5>Researchers</h5>
+                                    <p>Conduct variety testing, data collection for agricultural studies, and extension programs.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="use-case-item">
+                                    <div class="use-case-icon educator">
+                                        <i data-feather="book"></i>
+                                    </div>
+                                    <h5>Educators</h5>
+                                    <p>Enhance learning about agricultural biodiversity and sustainable farming practices.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section text-center">
+            <h3 class="mb-4">Ready to Analyze Your Rice Grains?</h3>
+            <p class="mb-4">Experience the power of AI-driven rice classification technology</p>
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg cta-button">
+                <i data-feather="camera" class="me-2"></i>
+                Start Classification
+            </a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+        
+        // Animate stats on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.circle-progress, .stat-circle, .tech-item, .variety-card').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

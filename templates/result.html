@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classification Result - GrainPalette</title>
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h1 class="display-5 mb-3">
+                <i data-feather="check-circle" class="me-3 text-success"></i>
+                Classification Results
+            </h1>
+            <p class="lead text-muted">AI Analysis Complete</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Main Result Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i data-feather="target" class="me-2"></i>
+                            Predicted Rice Type
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="mb-4">
+                            <h2 class="display-4 text-success mb-2">{{ prediction }}</h2>
+                            <p class="lead">
+                                Confidence: <strong class="text-info">{{ confidence }}%</strong>
+                            </p>
+                        </div>
+                        
+                        <!-- Confidence Progress Bar -->
+                        <div class="mb-4">
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar bg-success" role="progressbar" 
+                                     style="width: {{ confidence }}%" 
+                                     aria-valuenow="{{ confidence }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                    {{ confidence }}%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- All Predictions -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i data-feather="bar-chart" class="me-2"></i>
+                            Detailed Predictions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% for pred in all_predictions %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold">{{ pred.class }}</span>
+                                <span class="text-muted">{{ pred.probability }}%</span>
+                            </div>
+                            <div class="progress" style="height: 10px;">
+                                <div class="progress-bar 
+                                    {% if loop.index == 1 %}bg-success
+                                    {% elif loop.index == 2 %}bg-info
+                                    {% elif loop.index == 3 %}bg-warning
+                                    {% else %}bg-secondary
+                                    {% endif %}" 
+                                     role="progressbar" 
+                                     style="width: {{ pred.probability }}%" 
+                                     aria-valuenow="{{ pred.probability }}" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Agricultural Recommendations -->
+                {% if recommendations %}
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i data-feather="leaf" class="me-2"></i>
+                            Agricultural Recommendations for {{ prediction }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recommendations.description %}
+                        <div class="mb-4">
+                            <h6 class="fw-bold">
+                                <i data-feather="info" class="me-2"></i>
+                                Description
+                            </h6>
+                            <p class="text-muted">{{ recommendations.description }}</p>
+                        </div>
+                        {% endif %}
+
+                        <div class="row g-4">
+                            {% if recommendations.cultivation %}
+                            <div class="col-md-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h6 class="fw-bold text-success">
+                                        <i data-feather="sun" class="me-2"></i>
+                                        Cultivation Guidelines
+                                    </h6>
+                                    <p class="mb-0 small">{{ recommendations.cultivation }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if recommendations.water_needs %}
+                            <div class="col-md-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h6 class="fw-bold text-info">
+                                        <i data-feather="droplet" class="me-2"></i>
+                                        Water Requirements
+                                    </h6>
+                                    <p class="mb-0 small">{{ recommendations.water_needs }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if recommendations.fertilizer %}
+                            <div class="col-md-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h6 class="fw-bold text-warning">
+                                        <i data-feather="zap" class="me-2"></i>
+                                        Fertilizer Guidelines
+                                    </h6>
+                                    <p class="mb-0 small">{{ recommendations.fertilizer }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if recommendations.harvest_time %}
+                            <div class="col-md-6">
+                                <div class="bg-dark rounded p-3">
+                                    <h6 class="fw-bold text-danger">
+                                        <i data-feather="clock" class="me-2"></i>
+                                        Harvest Timeline
+                                    </h6>
+                                    <p class="mb-0 small">{{ recommendations.harvest_time }}</p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="text-center">
+                    <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg me-3">
+                        <i data-feather="upload" class="me-2"></i>
+                        Analyze Another Image
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-secondary btn-lg">
+                        <i data-feather="printer" class="me-2"></i>
+                        Save Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Initialize Feather icons
+        feather.replace();
+    </script>
+</body>
+</html>
